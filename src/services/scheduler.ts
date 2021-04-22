@@ -3,11 +3,15 @@ import { onAnalysis } from '../controllers/analysisController';
 import { ICash } from '../models/interfaces';
 
 export default async () => {
-    const records: ICash[] = await getAllRecords();
-    console.log(`All records received`);
-    records.forEach((rec: ICash) => {
-        if(!checkValidationRecord(rec)) onAnalysis(rec.domain);
-    })
+    try {
+        const records: ICash[] = await getAllRecords();
+        console.log(`All records received`);
+        records.forEach((rec: ICash) => {
+            if(!checkValidationRecord(rec)) onAnalysis(rec.domain);
+        })
+    } catch (error) {
+        console.error(error)
+    }
 } 
 
 function checkValidationRecord(record: ICash): boolean {
